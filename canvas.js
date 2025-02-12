@@ -1,4 +1,3 @@
-
 "use strict";
 
 const canvas = document.getElementById("canvas");
@@ -9,7 +8,7 @@ let prevTime = Date.now() - targetInterval;
 
 let auto = false;
 let forChip = 0;
-let chipCount = 1000;
+let chipCount = 10000;
 const dupe = [500, 20, 5, 3, 2, 0, 1, 1, 1, 1, 1, 0, 2, 3, 5, 20, 500];
 const slotToCount = [0, 1, 2, 3, 5, 20, 500];
 let count = [0, 0, 0, 0, 0, 0, 0];
@@ -51,7 +50,7 @@ class Chip {
         this.size = 0;
 
         this.vx = 0;
-        this.vy = -1;
+        this.vy = -0.8;
         this.g = 0.07;
 
         this.angle = 0;
@@ -258,8 +257,6 @@ function drawBtn(text, x, y, w, h, textSize) {
             chipCount--;
             isClicked = false;
         }
-    } else {
-        canvas.style.cursor = "default";
     }
     if (auto&&text==="Auto") {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
@@ -286,10 +283,14 @@ function drawBtn(text, x, y, w, h, textSize) {
 
 
 
-canvas.addEventListener("click", (event) => {
+canvas.addEventListener("mousedown", (event) => {
     mouseX = (event.clientX - canvas.getBoundingClientRect().x) * devicePixelRatio;
     mouseY = (event.clientY - canvas.getBoundingClientRect().y) * devicePixelRatio;
     isClicked = true;
+});
+
+canvas.addEventListener("mouseup", () => {
+    isClicked = false;
 });
 
 canvas.addEventListener('mousemove', (event) => {
@@ -352,6 +353,7 @@ function mainDraw() {
     ctx.strokeRect(toriaezu.x, toriaezu.y, tableSize.x, tableSize.y);
 
     drawPin(toriaezu.x+tableSize.x/2, toriaezu.y);
+    canvas.style.cursor = "default";
     drawBtn("Drop 1 chip", toriaezu.x+tableSize.x*0.8, toriaezu.y+tableSize.y*0.84, 60*2*window.devicePixelRatio, 15*2*window.devicePixelRatio, 8*2*window.devicePixelRatio);
     drawBtn("Auto", toriaezu.x+tableSize.x*0.8, toriaezu.y+tableSize.y*0.92, 38*2*window.devicePixelRatio, 15*2*window.devicePixelRatio, 8*2*window.devicePixelRatio);
     drawText();
